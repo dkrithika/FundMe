@@ -1,66 +1,62 @@
-## Foundry
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-Foundry consists of:
+FundMe 🚀
+Minimal crowdfunding contract accepting ETH donations with USD minimum threshold enforced by Chainlink price feeds.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+🛠️ Tech Stack
 
-## Documentation
+Solidity 0.8.26 + Foundry (forge build/test/deploy)
 
-https://book.getfoundry.sh/
+Chainlink ETH/USD Price Feeds
 
-## Usage
+🧪 Quick Start
 
-### Build
+bash
 
-```shell
-$ forge build
-```
+git clone https://github.com/dkrithika/FundMe.git
 
-### Test
+cd FundMe
 
-```shell
-$ forge test
-```
+forge install
 
-### Format
+forge test
 
-```shell
-$ forge fmt
-```
+✨ Features
 
-### Gas Snapshots
+✅ ETH funding with USD minimum threshold
 
-```shell
-$ forge snapshot
-```
+✅ Chainlink oracle price integration
 
-### Anvil
+✅ Owner-only withdrawals + refunds
 
-```shell
-$ anvil
-```
+✅ Gas-optimized Foundry test suite
 
-### Deploy
+How it works (technical):
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+// 1. User sends ETH function fund() public payable { require(getConversionRate(msg.value) >= MINIMUM_USD, "Below min threshold"); }
 
-### Cast
+// 2. Chainlink gives price function getConversionRate(uint256 ethAmount) internal view returns (uint256) { (,int256 price,,,) = priceFeed.latestRoundData(); // ETH/USD = $2500 return uint256(price) * ethAmount / 1e18; // ETH → USD }
 
-```shell
-$ cast <subcommand>
-```
+// 3. Owner withdraws when total ≥ $50 USD function withdraw() public onlyOwner { // Send all ETH to owner }
 
-### Help
+📁 Project Structure text src/ ├── FundMe.sol # Main crowdfunding contract
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+└── PriceConverter.sol # Chainlink price utils test/
+
+└── FundMe.t.sol # Comprehensive tests script/
+
+├── FundMe.s.sol # Deployment script
+
+└── HelperConfig.s.sol # Network config
+
+🚀 Run Tests
+
+bash
+
+forge test # All tests
+
+forge test -vvv # Verbose output
+
+📄 License MIT License - See LICENSE file
+
+Built by Damshala Krithika | Solidity + Foundry + Chainlink
