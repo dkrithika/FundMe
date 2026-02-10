@@ -5,8 +5,7 @@
 
 pragma solidity ^0.8.30;
 import {PriceConverter} from "./PriceConverter.sol";
-import {AggregatorV3Interface} from "@chainlink/shared/interfaces/AggregatorV3Interface.sol";
-
+import {AggregatorV3Interface} from "../interfaces/AggregatorV3Interface.sol";
 contract FundMe{
    using PriceConverter for uint256;
    uint public constant MINIMUM_USD = 5e18;
